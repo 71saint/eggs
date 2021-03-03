@@ -12,12 +12,12 @@
 autoplug-backup-config: 
   server-files-backup: 
     # Backups all files in root, except folders to /autoplug-backups/server/...zip.
-    enable: false
+    enable: true
     # Set max-days to 0 if you want to keep your backups forever.
     max-days: 7
   worlds-backup: 
     # Backups all folders starting with "world" to /autoplug-backups/worlds/...zip
-    enable: false
+    enable: true
     # Set max-days to 0 if you want to keep your backups forever.
     max-days: 7
   plugins-backup: 

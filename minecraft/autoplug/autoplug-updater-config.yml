@@ -32,7 +32,7 @@ autoplug-updater-config:
     # - waterfall (https://github.com/PaperMC/Waterfall)
     # - travertine (https://github.com/PaperMC/Travertine)
     # Note: If you change this, also reset the "build-id" to 0 to guarantee correct update-detection.
-    software: waterfall
+    software: 
     # Currently supported minecraft versions:
     # - paper versions: https://papermc.io/api/v2/projects/paper
     # - waterfall versions: https://papermc.io/api/v2/projects/waterfall
@@ -40,7 +40,7 @@ autoplug-updater-config:
     # Note: Only update to a newer version if you are sure that all your essential plugins support that version.
     # Note: Remember that worlds may not be converted to older versions.
     # Note: If you change this, also reset the "build-id" to 0 to guarantee correct update-detection.
-    version: 1.16
+    version: 0
     # Each release/update has its unique build-id. First release was 1, the second 2 and so on...
     # If you change your server software or mc-version, remember to change this to 0, to ensure proper update-detection.
     # Otherwise don't touch this. It will get incremented after every successful update automatically.
