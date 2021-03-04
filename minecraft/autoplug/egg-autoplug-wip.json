@@ -1,0 +1,69 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2021-03-04T02:32:46-05:00",
+    "name": "AutoPlug - WIP",
+    "author": "kreistan.business@gmail.com",
+    "description": "AutoPlug is an automatic plugin and server updater that includes Paper, Waterfall, and Travertine.\r\n\r\nTravertine: A fork of Waterfall which allows the use of 1.7 clients.\r\nWaterfall: An optimized fork of the well-known BungeeCord server teleportation suite.\r\nPaper: High performance Spigot fork that aims to fix gameplay and mechanics inconsistencies.",
+    "features": null,
+    "images": [
+        "quay.io\/pterodactyl\/core:java-11",
+        "quay.io\/pterodactyl\/core:java"
+    ],
+    "file_denylist": "",
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -Dterminal.jline=false -Dterminal.ansi=true -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"autoplug-updater-config.yml\": {\r\n        \"parser\": \"yaml\",\r\n        \"find\": {\r\n            \"autoplug-updater-config\": {\r\n                \"server-updater\": {\r\n                    \"software\": \"{{server.build.env.SERVER_TYPE}}\",\r\n                    \"build-id\": \"0\"\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"server-port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{}",
+        "stop": ".close"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# Paper Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\napt update\r\napt install -y curl jq\r\napt install -y wget\r\ncd \/mnt\/server\r\necho -e \"Running wget https:\/\/github.com\/Osiris-Team\/AutoPlug-Releases\/raw\/master\/AutoPlug-Client.jar\"\r\nif [ -f ${SERVER_JARFILE} ]; then\r\nmv ${SERVER_JARFILE} ${SERVER_JARFILE}.old\r\nfi\r\nwget https:\/\/papermc.io\/api\/v2\/projects\/paper\/versions\/1.8.8\/builds\/443\/downloads\/paper-1.8.8-443.jar\r\nmv paper-1.8.8-443.jar server.jar\r\nwget https:\/\/github.com\/Osiris-Team\/AutoPlug-Releases\/raw\/master\/AutoPlug-Client.jar\r\necho -e \"Running wget https:\/\/github.com\/Osiris-Team\/AutoPlug-Releases\/raw\/master\/stable-builds\/AutoPlugPlugin.jar\"\r\nwget https:\/\/github.com\/Osiris-Team\/AutoPlug-Releases\/raw\/master\/stable-builds\/AutoPlugPlugin.jar\r\nif [ ! .\/plugins ]; then\r\nmkdir plugins\r\nfi\r\nmv AutoPlugPlugin.jar .\/plugins\r\nif [ ! -f server.properties ]; then\r\necho -e \"Downloading MC server.properties\"\r\ncurl -o server.properties https:\/\/raw.githubusercontent.com\/71saint\/eggs\/master\/minecraft\/java\/server.properties\r\nfi\r\nif [ ! -f autoplug-general-config.yml ]; then\r\necho -e \"Downloading MC autoplug-general-config.yml\"\r\ncurl -o autoplug-general-config.yml https:\/\/raw.githubusercontent.com\/71saint\/eggs\/master\/minecraft\/autoplug\/autoplug-general-config.yml\r\nfi\r\nif [ ! -f autoplug-updater-config.yml ]; then\r\necho -e \"Downloading MC autoplug-updater-config.yml\"\r\ncurl -o autoplug-updater-config.yml https:\/\/raw.githubusercontent.com\/71saint\/eggs\/master\/minecraft\/autoplug\/autoplug-updater-config.yml\r\nfi",
+            "container": "debian:buster-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Minecraft Version",
+            "description": "The version of minecraft to download. \r\n\r\nLeave at latest to always get the latest version. Invalid versions will default to latest.",
+            "env_variable": "MINECRAFT_VERSION",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Server Jar File",
+            "description": "The name of the server jarfile to run the server with.",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "AutoPlug-Client.jar",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Build Number",
+            "description": "The build number for the associated release of the game server file. (Used for Spigot, Waterfall, and Travertine)\r\n\r\nLeave at latest to always get the latest version. Invalid versions will default to latest.",
+            "env_variable": "BUILD_NUMBER",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Server Type",
+            "description": "Must be \"paper\", \"waterfall\", or \"travertine\".",
+            "env_variable": "SERVER_TYPE",
+            "default_value": "paper",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        }
+    ]
+}
