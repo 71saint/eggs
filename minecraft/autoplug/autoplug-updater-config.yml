@@ -25,7 +25,7 @@ autoplug-updater-config:
   server-updater: 
     # Executed before mc server startup.
     enable: true
-    profile: MANUAL
+    profile: AUTOMATIC
     # Select your favorite server software. Enter the name below.
     # Currently supported:
     # - paper (https://papermc.io/)
